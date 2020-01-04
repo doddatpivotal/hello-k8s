@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-k8s
+  namespace: default
+spec:
+  rules:
+  - host: hello-k8s.ingress.cluster1.pks.lab.winterfell.live
+    http:
+      paths:
+      - backend:
+          serviceName: hello-k8s
+          servicePort: 8080
