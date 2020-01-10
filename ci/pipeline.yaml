@@ -50,6 +50,6 @@ jobs:
         passed: [build-and-publish]
       - put: kubernetes-lab
         params:
-          kubectl: apply -f hello-k8s-repo/k8s/deployment.yaml
+          kubectl: apply -f hello-k8s-repo/k8s
           wait_until_ready: 120
           wait_until_ready_selector: app=boot-backend

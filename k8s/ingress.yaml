@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: hello-k8s
-  namespace: default
 spec:
   rules:
   - host: hello-k8s.ingress.stormsend.pks.lab.winterfell.live
