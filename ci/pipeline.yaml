@@ -19,14 +19,14 @@ resources:
       password: ((registry-password))
       repository: ((registry-url))/((registry-project))/hello-k8s
       insecure_registries: 
-        - ((registry-host)):443
-        - ((registry-host))
+        - ((registry-url)):443
+        - ((registry-url))
 
   - name: kubernetes-lab
     type: kubernetes
     source:
       server: ((k8s-server))
-      namespace: default
+      namespace: ((namespace))
       insecure_skip_tls_verify: true
       token: ((token))
 

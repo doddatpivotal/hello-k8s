@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: hello-k8s.ingress.cluster1.pks.lab.winterfell.live
+  - host: hello-k8s.ingress.stormsend.pks.lab.winterfell.live
     http:
       paths:
       - backend:
