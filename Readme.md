@@ -44,3 +44,9 @@ Replace update your .secrets file with token
 fly -t lab set-pipeline -p hello-k8s -c ci/pipeline.yaml -l .secrets.yaml -n
 fly -t lab unpause-pipeline -p hello-k8s
 ```
+
+## Test Service
+
+```bash
+curl hello-k8s.ingress.stormsend.pks.lab.winterfell.live
+```
