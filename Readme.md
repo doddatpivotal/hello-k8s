@@ -2,14 +2,16 @@
 
 Example repo for build/deploy spring boot app to k8s with concourse.
 
-## Customization
+## CI Lab
+
+### Customization
 
 Need to update the yamls in /k8s directory
 
 - deployment.yaml to match image location
 - ingress.yaml to match ingress url
 
-## Create Params File
+### Create Params File
 
 Create .secrets.yaml in the root.  See example
 
@@ -30,7 +32,7 @@ registry-username: cody
 token: REDACTED_TOKEN
 ```
 
-## Get token
+### Get token
 
 ```bash
 fly -t lab get-token.sh <service_account_name> <namespace>
@@ -38,14 +40,14 @@ fly -t lab get-token.sh <service_account_name> <namespace>
 
 Replace update your .secrets file with token
 
-## Deploy Pipeline
+### Deploy Pipeline
 
 ```bash
 fly -t lab set-pipeline -p hello-k8s -c ci/pipeline.yaml -l .secrets.yaml -n
 fly -t lab unpause-pipeline -p hello-k8s
 ```
 
-## Test Service
+### Test Service
 
 ```bash
 curl hello-k8s.ingress.stormsend.pks.lab.winterfell.live

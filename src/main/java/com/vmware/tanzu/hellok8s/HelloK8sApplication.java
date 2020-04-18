@@ -1,4 +1,4 @@
-package io.pivotal.hellok8s;
+package com.vmware.tanzu.hellok8s;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -21,11 +21,15 @@ class HelloController {
     @Value("${HOSTNAME:no host}")
     String podname;
 
-    String version = "v1";
+    @Value("${hello-k8s.name:Dodd}")
+    String name;
+
+    @Value("${hello-k8s.version:v1}")
+    String version;
 
     @GetMapping("/")
     public String hello() {
-        return "Hello! You are running on pod " + podname + " and version is " + version + "." ;
+        return "Hello " + name + "! You are running on pod " + podname + " and version is " + version + "." ;
     }
 
 }

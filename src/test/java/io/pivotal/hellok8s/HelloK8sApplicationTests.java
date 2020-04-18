@@ -1,4 +1,4 @@
-package io.pivotal.hellok8s;
+package com.vmware.tanzu.hellok8s;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

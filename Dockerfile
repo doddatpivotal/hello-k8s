@@ -1,5 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-COPY . /app
+RUN apk add --no-cache curl
 
-ENTRYPOINT ["/usr/bin/java", "-jar", "/app/target/hello-k8s-v1.jar"]
+ADD target/hello-k8s-v1.jar app.jar
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom","-Xmx512m", "-jar", "/app.jar"]
