@@ -8,7 +8,7 @@
 ```bash
 mvn package
 docker build -t dpfefferatpivotal/hello-k8s:v1 .
-docker run -p -d 8080:8080 dpfefferatpivotal/hello-k8s:v1
+docker run -p 8080:8080 dpfefferatpivotal/hello-k8s:v1
 docker ps
 docker logs <container_id>
 curl localhost:8080
