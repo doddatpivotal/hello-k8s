@@ -22,11 +22,11 @@ Create .secrets.yaml in the root.  See example
 # registry-url: registry.hub.docker.com/dpfefferatpivotal
 # registry-username: dpfefferatpivotal
 git-repo: https://github.com/doddatpivotal/hello-k8s.git
-k8s-server: https://cluster1.pks.lab.winterfell.live:8443
+k8s-server: https://cluster1.tkg-vsphere-haas-261.winterfell.live:8443
 registry-project: cody
 registry-email: cody@winterfell.live
 registry-password: REDACTED_PASSWORD
-registry-url: harbor.lab.winterfell.live
+registry-url: harbor.stormsend.tkg-vsphere-haas-261.winterfell.live
 registry-username: cody
 # Get this token by ./scripts/get-token.sh
 token: REDACTED_TOKEN
@@ -50,5 +50,5 @@ fly -t lab unpause-pipeline -p hello-k8s
 ### Test Service
 
 ```bash
-curl hello-k8s.ingress.stormsend.pks.lab.winterfell.live
+curl hello-k8s-workspace6.ingress.stormsend.tkg-vsphere-haas-261.winterfell.live
 ```

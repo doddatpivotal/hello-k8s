@@ -3,17 +3,28 @@
 ## Build and publish our demo container
 
 1. Introduce the code
-2. Build and publish
+2. Modify the src/main/resources/application.properties and set name to your name
+3. Build and publish
 
 ```bash
-mvn package
-docker build -t dpfefferatpivotal/hello-k8s:v1 .
-docker run -p 8080:8080 dpfefferatpivotal/hello-k8s:v1
+./mvnw package
+docker build -t harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v1 .
+docker run -d -p 8080:8080 harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v1
 docker ps
 docker logs <container_id>
 curl localhost:8080
 docker stop <container_id>
-docker push dpfefferatpivotal/hello-k8s:v1
+docker push harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v1
+```
+
+4. Modify the src/main/resources/application.properties and set version to `v2`
+
+5. Build and publish
+
+```bash
+./mvnw package
+docker build -t harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v2 .
+docker push harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v2
 ```
 
 ## Explore the cluster
@@ -32,17 +43,26 @@ kubectl get node -o wide
 1. Deploy the app
 
 ```bash
-kubectl run hello-k8s --image=dpfefferatpivotal/hello-k8s:v1 --port=8080 --record
+kubectl create deployment hello-k8s --image=harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v1 --port=8080
 kubectl get deployments
 ```
 
 2. View the app
 
 ```bash
-export POD_NAME=$(kubectl get pods -o json | jq .items[0].metadata.name -r)
-export NAMESPACE=???
+# Get the name of the running pod
+kubectl get pods
+
+export POD_NAME=<NAME OF POD FROM ABOVE>
+export NAMESPACE=<YOUR NAMESPACE>
+
+# Setup a proxy so that you can access the pod
 kubectl proxy
+
+# Open another terminal window have a look the kubenetes api server root endpoint
 curl http://localhost:8001
+
+# You can use the kubernetes api server to make a request against the pod
 curl http://localhost:8001/api/v1/namespaces/$NAMESPACE/pods/$POD_NAME/proxy/    
 ```
 
@@ -74,7 +94,7 @@ kubectl expose deployment/hello-k8s --type=NodePort --port=8080
 kubectl get services
 kubectl describe service/hello-k8s
 export NODE_PORT=$(kubectl get services/hello-k8s -o 'jsonpath={.spec.ports[0].nodePort}')
-export NODE_HOST=$(kubectl get node -o 'jsonpath={.items[0].status.addresses[0].address}')
+export NODE_HOST=$(kubectl get node -o 'jsonpath={.items[0].status.addresses[1].address}')
 curl $NODE_HOST:$NODE_PORT
 ```
 
@@ -111,7 +131,7 @@ kubectl get pods -o wide
 ```bash
 # see the image
 kubectl describe pod
-kubectl set image deployment/hello-k8s hello-k8s=dpfefferatpivotal/hello-k8s:v2 --record
+kubectl set image deployment/hello-k8s hello-k8s=harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v2 --record
 kubectl get pods
 ```
 
@@ -131,7 +151,7 @@ kubectl rollout history deployment hello-k8s
 4. Failed update
 
 ```bash
-kubectl set image deployment/hello-k8s hello-k8s=dpfefferatpivotal/hello-k8s:v3 --record
+kubectl set image deployment/hello-k8s hello-k8s=harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/workspace6/hello-k8s:v3 --record
 kubectl rollout status deployment hello-k8s
 kubectl rollout history deployment hello-k8s
 kubectl get pods

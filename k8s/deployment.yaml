@@ -26,5 +26,5 @@ spec:
     spec:
       containers:
         - name: hello-8s
-          image: harbor.lab.winterfell.live/hello-k8s/hello-k8s:latest
+          image: harbor.stormsend.tkg-vsphere-haas-261.winterfell.live/hello-k8s/hello-k8s:latest
           imagePullPolicy: Always
