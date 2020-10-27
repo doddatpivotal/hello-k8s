@@ -4,7 +4,7 @@ metadata:
   name: hello-k8s
 spec:
   rules:
-  - host: hello-k8s-workspace6.stormsend.tkg-vsphere-haas-261.winterfell.live
+  - host: hello-k8s-workspace6.ironislands.tkg-vsphere-haas-261.winterfell.live
     http:
       paths:
       - backend:
