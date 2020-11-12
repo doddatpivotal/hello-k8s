@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-k8s
+spec:
+  selector:
+    app: hello-k8s
+  ports:
+    - protocol: TCP
+      port: 8080
+  type: ClusterIP
