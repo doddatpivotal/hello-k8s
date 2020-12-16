@@ -19,7 +19,7 @@ public class HelloK8sApplication {
 class HelloController {
 
     @Value("${HOSTNAME:no host}")
-    String podname;
+    String hostname;
 
     @Value("${hello-k8s.name:Dodd}")
     String name;
@@ -29,7 +29,7 @@ class HelloController {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello " + name + "! You are running on pod " + podname + " and version is " + version + "." ;
+        return "Hello " + name + "! You are running on pod " + hostname + " and version is " + version + "." ;
     }
 
 }

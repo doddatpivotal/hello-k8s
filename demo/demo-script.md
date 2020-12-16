@@ -4,19 +4,31 @@
 
 1. Introduce the code
 2. Modify the src/main/resources/application.properties and set name to your name
-3. Build and publish
+
+Package and Run
 
 ```bash
 ./mvnw package
-docker build -t harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v1 .
-docker run -d -p 8080:8080 harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v1
+java -jar target/hello-k8s-0.0.1-SNAPSHOT.jar
+# In another window
+curl localhost:8080
+```
+
+3. Build and publish
+
+Take a look at the Dockerfile
+
+```bash
+docker build -t harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1 .
+docker run -d -p 8080:8080 harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1
 docker ps
 #docker logs <container_id>
 docker logs $(docker ps | grep hello-k8s | awk '{print $(1)}')
 curl localhost:8080
 #docker stop <container_id>
 docker stop $(docker ps | grep hello-k8s | awk '{print $(1)}')
-docker push harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v1
+# What if we want to share our container image with others
+docker push harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1
 ```
 
 4. Modify the src/main/resources/application.properties and set version to `v2`
@@ -27,12 +39,12 @@ docker push harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v1
 ./mvnw package
 
 # Do the same build as before...
-docker build -t harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v2 .
-docker push harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v2
+docker build -t harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v2 .
+docker push harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v2
 
 # ...or you could use the Tanzu Build Service
 kp image create hello-k8s \
-  --tag harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v2 \
+  --tag harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v2 \
   --namespace tbs-project-hello-k8s \
   --local-path target/hello-k8s-0.0.1-SNAPSHOT.jar \
   --wait
@@ -41,12 +53,18 @@ kp image create hello-k8s \
 ## Explore the cluster
 
 1. Introduce kubectl
-2. Cluster info
 
 ```bash
 kubectl version
+```
+
+2. Cluster info
+
+```bash
 kubectl cluster-info
 kubectl get node -o wide
+kubectl get namespace
+kubectl get pods _A
 ```
 
 3. Kubectl config and user context
@@ -61,7 +79,7 @@ kubectl config view --flatten --minify
 1. Deploy the app
 
 ```bash
-kubectl create deployment hello-k8s --image=harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v1 --port=8080
+kubectl create deployment hello-k8s --image=harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1 --port=8080 --record
 kubectl get deployments
 ```
 
@@ -84,7 +102,8 @@ export NAMESPACE=$(kubectl config get-contexts | grep '*' | awk '{print $(5)}')
 
 # You can use the kubernetes api server to make a request against the pod
 curl http://localhost:8001/api/v1/namespaces/$NAMESPACE/pods/$POD_NAME:8080/proxy/    
-TODO: Dodd you have homework
+
+# Break out of proxy
 ```
 
 ## Explore the app
@@ -102,6 +121,13 @@ kubectl exec $POD_NAME env
 kubectl exec -ti $POD_NAME -- /bin/sh
 ls
 exit
+```
+
+3. How about doing the same from Octant
+
+```bash
+octant
+# check out deployment, pod, logs, and terminal
 ```
 
 ## Expose the app publicly
@@ -152,7 +178,7 @@ kubectl get pods -o wide
 ```bash
 # see the image
 kubectl describe pod
-kubectl set image deployment/hello-k8s hello-k8s=harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v2 --record
+kubectl set image deployment/hello-k8s hello-k8s=harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v2 --record
 kubectl get pods
 ```
 
@@ -172,7 +198,7 @@ kubectl rollout history deployment hello-k8s
 4. Failed update
 
 ```bash
-kubectl set image deployment/hello-k8s hello-k8s=harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:v3 --record
+kubectl set image deployment/hello-k8s hello-k8s=harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v3 --record
 kubectl rollout status deployment hello-k8s
 kubectl rollout history deployment hello-k8s
 kubectl get pods
@@ -187,12 +213,23 @@ kubectl get pods
 ```bash
 #in a new window
 watch kubectl get pods
+export POD_NAME=$(kubectl get pods | grep hello-k8s | head -1 | awk '{print $(1)}')
 kubectl delete pod $POD_NAME
 ```
 
 ## Ingress
 
-1. Instead of Load Balancer service, let's save IPs and use an ingress
+1. Let's be greedy with a LoadBalancer Service
+
+```bash
+kubectl delete service hello-k8s
+kubectl expose deployment/hello-k8s --type=LoadBalancer --port=80 --target-port=8080
+kubectl get services
+export EXTERNAL_IP=$(kubectl get services/hello-k8s -o 'jsonpath={.status.loadBalancer.ingress[0].ip}')
+curl $EXTERNAL_IP
+```
+
+2. Instead of Load Balancer service, let's save IPs and use an ingress
 
 ```bash
 kubectl delete service hello-k8s
