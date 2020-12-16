@@ -64,7 +64,7 @@ kubectl version
 kubectl cluster-info
 kubectl get node -o wide
 kubectl get namespace
-kubectl get pods _A
+kubectl get pods -A
 ```
 
 3. Kubectl config and user context
@@ -79,7 +79,7 @@ kubectl config view --flatten --minify
 1. Deploy the app
 
 ```bash
-kubectl create deployment hello-k8s --image=harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1 --port=8080 --record
+kubectl create deployment hello-k8s --image=harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1 --port=8080
 kubectl get deployments
 ```
 
