@@ -2,7 +2,13 @@
 
 Example repo for build/deploy spring boot app to k8s with concourse.
 
-## CI Lab
+## Demo Lab (Optional)
+
+To use this as the basis of a kubernetes 101 demo, do the [prereqs](demo/demo-prereqs.md) and then follow this [guide](demo/demo-script.md).
+
+## CI Lab (Optional)
+
+If you would like to explore Concourse and a sample CI pipeline for this project, follow these instructions...
 
 ### Customization
 
@@ -34,8 +40,10 @@ token: REDACTED_TOKEN
 
 ### Get token
 
+Choose the target namespace to deploy your app and a service account name.
+
 ```bash
-fly -t lab get-token.sh <service_account_name> <namespace>
+./scripts/get-token.sh <service_account_name> <namespace>
 ```
 
 Replace update your .secrets file with token
