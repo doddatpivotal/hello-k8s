@@ -1,16 +1,12 @@
 package com.vmware.tanzu.hellok8s;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.TestPropertySource;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class HelloK8sApplicationTests {
-
-	@Test
-	public void contextLoads() {
-	}
-
+class DemoApplicationTests {
+  @Test
+  void contextLoads() {
+  }
 }
