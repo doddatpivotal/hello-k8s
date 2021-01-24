@@ -1,0 +1,8 @@
+hello-k8s: 
+  name: Dodd
+  version: v1
+management:
+  metrics: 
+    export: 
+      wavefront: 
+        enabled: false

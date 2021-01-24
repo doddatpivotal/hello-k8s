@@ -3,7 +3,7 @@
 ## Build and publish our demo container
 
 1. Introduce the code
-2. Modify the src/main/resources/application.properties and set name to your name
+2. Modify the src/main/resources/application.yaml and set name to your name
 
 Package and Run
 
@@ -31,12 +31,12 @@ docker stop $(docker ps | grep hello-k8s | awk '{print $(1)}')
 docker push harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v1
 ```
 
-4. Modify the src/main/resources/application.properties and set version to `v2`
+4. Modify the src/main/resources/application.yaml and set version to `v2`
 
 5. Build and publish
 
 ```bash
-./mvnw package
+./mvnw package -D skipTests
 
 # Do the same build as before...
 docker build -t harbor.tkg-vsphere-lab.winterfell.live/hello-k8s/hello-k8s:v2 .
