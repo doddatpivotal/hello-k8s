@@ -29,7 +29,7 @@ class HelloController {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello " + name + "! You are running on pod " + hostname + " and version is " + version + "." ;
+        return "Hello " + name + "! You are running on pod " + hostname + " and version is " + version + ".\n" ;
     }
 
 }
