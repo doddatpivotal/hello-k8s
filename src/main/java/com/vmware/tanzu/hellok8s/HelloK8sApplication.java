@@ -1,5 +1,7 @@
 package com.vmware.tanzu.hellok8s;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,8 +30,8 @@ class HelloController {
     String version;
 
     @GetMapping("/")
-    public String hello() {
-        return "Hello " + name + "! You are running on pod " + hostname + " and version is " + version + ".\n" ;
+    public String hello(HttpServletRequest request) {
+        return "Hello " + name + "! You are requesting from " + request.getRemoteAddr() + " and accessing pod " + hostname + " and version is " + version + " and x-forward-header is " + request.getHeader("X-FORWARDED-FOR") + ".\n" ;
     }
 
 }

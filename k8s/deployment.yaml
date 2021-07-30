@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-k8s
+  labels:
+    app: hello-k8s    
 spec:
   selector:
     matchLabels:
@@ -14,5 +16,12 @@ spec:
     spec:
       containers:
         - name: hello-8s
-          image: harbor.dorn.tkg-aws-e2-lab.winterfell.live/hello-k8s/hello-k8s:latest
+          image: dpfefferatpivotal/hello-k8s:0.0.2
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "500m"
+            limits:
+              memory: "768Mi"
+              cpu: "500m"          

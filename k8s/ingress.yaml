@@ -2,9 +2,11 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: hello-k8s
+  labels:
+    app: hello-k8s    
 spec:
   rules:
-  - host: hello-k8s.riverrun.tkg-vsphere-lab.winterfell.live
+  - host: hello-k8s.platform-sandbox-1.tanzu-poc.company.com
     http:
       paths:
       - backend:

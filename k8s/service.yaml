@@ -2,6 +2,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: hello-k8s
+  labels:
+    app: hello-k8s    
 spec:
   selector:
     app: hello-k8s

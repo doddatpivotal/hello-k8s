@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.4.2</version>
+    <version>2.5.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -24,8 +24,8 @@
 		<java.version>11</java.version>
 		<distribution.management.release.id>bintray</distribution.management.release.id>
 		<distribution.management.release.url>https://api.bintray.com/maven/dpfeffer/maven-repo/hello-k8s</distribution.management.release.url>
-    <wavefront.version>2.1.0-RC1</wavefront.version>
-    <spring-cloud.version>2020.0.0</spring-cloud.version>
+    <wavefront.version>2.2.0</wavefront.version>
+    <spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 
   <dependencyManagement>
@@ -76,12 +76,16 @@
       <url>https://repo.spring.io/milestone</url>
     </repository>
   </repositories>
-	  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-</project>
+<build>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <layers>
+              <enabled>true</enabled>
+            </layers>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build></project>
